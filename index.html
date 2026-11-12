@@ -1381,6 +1381,11 @@ html.dot .resume-btn small{color:var(--accent);opacity:1}
 html.dot .resume-btn:hover{background:var(--accent);color:#fff;transform:none}
 html.dot .resume-btn:hover small{color:#fff}
 @media (prefers-reduced-motion:reduce){.resume-btn:hover svg{animation:none}}
+
+.logo-globe{display:grid;place-items:center;color:var(--accent)}
+.logo-globe svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+html.neo .logo-globe{background:var(--yellow)!important;color:#000}
+html.dot .logo-globe{color:#F2F2F2}
 </style>
 </head>
 <body>
@@ -1453,7 +1458,7 @@ html.dot .resume-btn:hover small{color:#fff}
         <a class="xr" href="#myntra" role="row"><span class="logo sm" style="background:#fff" aria-hidden="true"><img src="img/logo-myntra.png" alt=""></span><span class="co" role="cell">Myntra</span><span class="role" role="cell">Lead UX → Sr. Design Manager</span><span class="yrs" role="cell">2018 – 22</span><span class="focus c-focus" role="cell">Supply chain, design system</span><span class="c-cs" role="cell"><span class="cs">3 case studies</span></span><span class="chev" aria-hidden="true">›</span></a>
         <a class="xr" href="#treebo" role="row"><span class="logo sm" style="background:#F7F7F7" aria-hidden="true"><img src="img/logo-treebo.png" alt=""></span><span class="co" role="cell">Treebo Hotels</span><span class="role" role="cell">Senior Product Designer</span><span class="yrs" role="cell">2017 – 18</span><span class="focus c-focus" role="cell">Hospitality, B2B tools</span><span class="c-cs" role="cell"><span class="cs">2 case studies</span></span><span class="chev" aria-hidden="true">›</span></a>
         <div class="xr" role="row"><span class="logo sm" style="background:#fff" aria-hidden="true"><img src="img/logo-signeasy.png" alt=""></span><span class="co" role="cell">SignEasy</span><span class="role" role="cell">Product Designer</span><span class="yrs" role="cell">2015 – 17</span><span class="focus c-focus" role="cell">SaaS, mobile</span><span class="c-cs" role="cell"><span class="none">—</span></span><span></span></div>
-        <div class="xr" role="row"><span class="logo sm" style="background:#1A1A1C;color:var(--accent);font-family:var(--display);font-size:14px" aria-hidden="true">L</span><span class="co" role="cell">Life.Pixel.Art</span><span class="role" role="cell">Founder</span><span class="yrs" role="cell">2013 – 15</span><span class="focus c-focus" role="cell">Brand, studio</span><span class="c-cs" role="cell"><span class="none">—</span></span><span></span></div>
+        <div class="xr" role="row"><span class="logo sm logo-globe" style="background:#1A1A1C" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.1 3.6 8.5s-1.2 6.2-3.6 8.5M12 3.5C9.6 5.8 8.4 8.6 8.4 12s1.2 6.2 3.6 8.5"/></svg></span><span class="co" role="cell">Life.Pixel.Art</span><span class="role" role="cell">Founder</span><span class="yrs" role="cell">2013 – 15</span><span class="focus c-focus" role="cell">Brand, studio</span><span class="c-cs" role="cell"><span class="none">—</span></span><span></span></div>
       </div>
     </div>
   </section>
@@ -3022,5 +3027,22 @@ html.dot .resume-btn:hover small{color:#fff}
   d.addEventListener('click',function(e){ if(e.target===d) close() });   // click outside the card
   d.addEventListener('close',function(){ root.classList.remove('wwm-lock'); o.focus() });
 })();
-</script></body>
+</script><script>
+/* resume download: inside the Claude artifact viewer plain download links are blocked,
+   so hand the PDF to the viewer's save prompt there; elsewhere the link works as is */
+(function(){
+  var btn=document.querySelector('.resume-btn'); if(!btn) return;
+  btn.addEventListener('click',function(e){
+    if(!(window.claude&&typeof window.claude.use==='function')) return;
+    e.preventDefault();
+    claude.use('downloads').then(function(dl){
+      if(!dl){ window.open(btn.href,'_blank'); return; }
+      return fetch(btn.getAttribute('href')).then(function(r){ return r.blob() }).then(function(b){
+        return dl.save({filename:'Rahul_Das_Resume.pdf',data:b});
+      });
+    }).catch(function(err){ if(err&&err.code&&err.code!=='declined') console.warn('Resume download:',err.code); });
+  });
+})();
+</script>
+</body>
 </html>

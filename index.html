@@ -1346,6 +1346,17 @@ html.dot .wwm-body li p{color:var(--muted)}
 html.dot .portrait #dotmx{display:block}
 html.dot .portrait #dots,html.dot .portrait .real{display:none!important}
 html.dot .portrait{cursor:crosshair}
+
+/* Dot: social tiles fill with growing LED dots instead of the swipe-up */
+@property --dr{syntax:"<length>";inherits:false;initial-value:0px}
+html.dot .socials a{isolation:isolate}
+html.dot .socials a::before{transform:none;z-index:-1;--dr:0px;
+  background:radial-gradient(circle at center,#F2F2F2 var(--dr),transparent calc(var(--dr) + .6px)) 0 0/8px 8px;
+  transition:--dr .42s steps(7,end)}
+html.dot .socials a:hover::before,html.dot .socials a:focus-visible::before{--dr:6px}
+html.dot .socials a span,html.dot .socials a small,html.dot .socials a .arw{transition:color .2s .12s}
+html.dot .socials a:hover .arw{color:#000}
+@media (prefers-reduced-motion:reduce){html.dot .socials a::before{transition:none}}
 </style>
 </head>
 <body>

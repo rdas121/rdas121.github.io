@@ -1334,6 +1334,12 @@ html.dot .wwm-body li b{color:var(--ink)}
 html.dot .wwm-body li p{color:var(--muted)}
 @media (max-width:760px){html.dot .mode{background:#161616;box-shadow:0 0 0 1px #333,0 8px 24px rgba(0,0,0,.6)}}
 @media (prefers-reduced-motion:reduce){html.dot .clock i{animation:none}}
+
+/* Treebo CRS card: same split layout as the onboarding card */
+.feature.feature-split + .feature.feature-split{margin-top:16px}
+.feature.feature-split .viz.viz-crs{display:flex;padding:28px 22px 84px}
+.feature.feature-split .viz-crs .crs-sum{right:22px;bottom:20px}
+.feature.feature-split .viz-crs .crs .lane{height:28px}
 </style>
 </head>
 <body>
@@ -1585,9 +1591,8 @@ html.dot .wwm-body li p{color:var(--muted)}
           <span class="cta">Read case study · 5 min overview <span class="arw">↗</span></span>
         </div>
       </a>
-      <div class="grid">
-        <a class="card reveal" href="#cs-treebo-crs">
-          <div class="frame clip"><div class="viz viz-crs" aria-hidden="true">
+      <a class="feature clip feature-split" href="#cs-treebo-crs">
+        <div class="viz viz-crs" aria-hidden="true">
               <div class="crs-head"><span></span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
               <div class="crs">
                 <span class="rm">101</span><div class="lane"><span class="bk a" style="left:0;width:42%">A. Mehta · 3N</span><span class="bk c" style="left:57%;width:28%;animation-delay:.5s">Hold</span></div>
@@ -1597,12 +1602,16 @@ html.dot .wwm-body li p{color:var(--muted)}
                 <span class="rm">105</span><div class="lane"><span class="bk b" style="left:14%;width:28%;animation-delay:.4s">K. Iyer</span></div>
               </div>
               <div class="crs-sum"><div><b>82%</b>Occupancy</div><div><b>14</b>Arrivals</div></div>
-            </div><span class="cta float">Read · 8 min overview <span class="arw">↗</span></span></div>
-          <div class="row"><span class="num">02</span><span class="yr">2017–18</span></div>
-          <h3>A central booking and reservation system for Treebo</h3>
-          <div class="meta"><span class="tag">Web</span><span class="tag">Product design</span></div>
-        </a>
-      </div>
+            </div>
+        <div class="info">
+          <div>
+            <span class="num">02 · 2017–18</span>
+            <h3 style="margin-top:12px">A central booking and reservation system for Treebo</h3>
+            <div class="meta"><span class="tag">Web</span><span class="tag">Product design</span></div>
+          </div>
+          <span class="cta">Read case study · 8 min overview <span class="arw">↗</span></span>
+        </div>
+      </a>
     <a class="next" href="#legalzoom"><span>Next company</span><b>LegalZoom <span aria-hidden="true">→</span></b></a>
   </div>
 </section>

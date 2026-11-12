@@ -1058,6 +1058,19 @@ html.pixel .jr-txt b span{color:var(--coin)}
 @media (max-width:760px){.jr-step,.shot-img{width:210px}.jr-txt{min-height:170px}}
 html.neo .shot-img{border:2px solid #000;border-radius:14px;box-shadow:5px 5px 0 #000}
 html.pixel .shot-img{border:2px solid rgba(255,255,255,.25);box-shadow:4px 4px 0 #000}
+
+/* journey chevrons */
+.jr-head{align-items:center}
+.jr-nav{display:flex;gap:10px}
+.jr-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(17,17,26,.16);background:#fff;color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(20,20,40,.08);transition:transform .15s,background .15s,opacity .15s}
+.jr-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.jr-btn:hover:not(:disabled){transform:translateY(-1px);background:var(--accent);color:#fff;border-color:transparent}
+.jr-btn:disabled{opacity:.3;cursor:default;box-shadow:none}
+.jr-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+html.neo .jr-btn{border:2px solid #000;box-shadow:3px 3px 0 #000;color:#000}
+html.neo .jr-btn:hover:not(:disabled){background:var(--yellow);color:#000;border-color:#000;transform:translate(-2px,-2px);box-shadow:5px 5px 0 #000}
+html.pixel .jr-btn{border-radius:0;border:3px solid #000;background:var(--panel);color:var(--coin);box-shadow:3px 3px 0 #000}
+html.pixel .jr-btn:hover:not(:disabled){background:var(--coin);color:#000}
 </style>
 </head>
 <body>
@@ -2030,7 +2043,7 @@ html.pixel .shot-img{border:2px solid rgba(255,255,255,.25);box-shadow:4px 4px 0
       <p>Between January and March 2022 the team launched a new mobile web app in two months, before any user research.</p>
     </article>
     <figure class="journey" aria-label="The MVP user journey, in 7 screens">
-      <div class="jr-head"><span>The MVP user journey, screen by screen</span><span class="jr-hint">Swipe or scroll →</span></div>
+      <div class="jr-head"><span>The MVP user journey, screen by screen</span><span class="jr-nav"><button type="button" class="jr-btn" data-dir="-1" aria-label="Previous screens" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="jr-btn" data-dir="1" aria-label="Next screens"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></span></div>
       <div class="jr-rail" tabindex="0"><div class="jr-stage"><div class="jr-lbl">1 · Land</div><div class="jr-steps"><div class="jr-step"><div class="shot"><div class="shot-img"><img src="img/ms/j-01.jpg" alt="MVP home with a first-order 50% off banner, lowest price deals and top picks" loading="lazy"></div></div><div class="jr-txt"><b><span>01</span>Home</b><p>A first-order discount, lowest-price deals and a long list of top picks.</p><p class="jr-issue"><span aria-hidden="true">!</span>Looked like regular Meesho, so many couldn’t tell this was a grocery store.</p></div></div><div class="jr-step"><div class="shot"><div class="shot-img"><img src="img/ms/j-02.jpg" alt="MVP home with a bar saying add items worth ₹50 to unlock the ₹1 deal" loading="lazy"></div></div><div class="jr-txt"><b><span>02</span>The ₹1 deal</b><p>A sticky bar asks her to add ₹50 more to unlock a ₹1 item.</p><p class="jr-issue"><span aria-hidden="true">!</span>Pulled in deal seekers who redeemed once and never came back.</p></div></div></div></div><div class="jr-stage"><div class="jr-lbl">2 · Find</div><div class="jr-steps"><div class="jr-step"><div class="shot"><div class="shot-img"><img src="img/ms/j-03.jpg" alt="MVP search with an empty field and a delivery cut-off tooltip" loading="lazy"></div></div><div class="jr-txt"><b><span>03</span>Search</b><p>An empty box, with only a delivery-time tooltip for company.</p><p class="jr-issue"><span aria-hidden="true">!</span>New users didn’t know what to type. Only 6% searched.</p></div></div><div class="jr-step"><div class="shot"><div class="shot-img"><img src="img/ms/j-04.jpg" alt="MVP fruits category list with market prices and discounts" loading="lazy"></div></div><div class="jr-txt"><b><span>04</span>Category</b><p>A plain list of fruits with market price and discount.</p><p class="jr-issue"><span aria-hidden="true">!</span>Small images and no browsing cues made a full basket hard to build.</p></div></div></div></div><div class="jr-stage"><div class="jr-lbl">3 · Checkout</div><div class="jr-steps"><div class="jr-step"><div class="shot"><div class="shot-img"><img src="img/ms/j-05.jpg" alt="MVP select delivery address with one unserviceable address" loading="lazy"></div></div><div class="jr-txt"><b><span>05</span>Address</b><p>Pick a saved address. Unserviceable ones are greyed out.</p></div></div><div class="jr-step"><div class="shot"><div class="shot-img"><img src="img/ms/j-06.jpg" alt="MVP cart with the ₹1 deal locked and a prompt to add ₹19 more" loading="lazy"></div></div><div class="jr-txt"><b><span>06</span>Cart: deal locked</b><p>The ₹1 potato stays locked until she adds ₹19 more.</p></div></div><div class="jr-step"><div class="shot"><div class="shot-img"><img src="img/ms/j-07.jpg" alt="MVP cart with the ₹1 deal unlocked, price breakup and pay after quality check" loading="lazy"></div></div><div class="jr-txt"><b><span>07</span>Cart: deal unlocked</b><p>Deal unlocked, savings shown, and she pays at the store after a quality check.</p><p class="jr-issue"><span aria-hidden="true">!</span>Baskets stayed small: ₹150 average order value against a ₹250 target.</p></div></div></div></div></div>
       <figcaption>What a first-time shopper saw in the MVP, and what we later learned went wrong at each step.</figcaption>
     </figure>
@@ -2531,5 +2544,20 @@ html.pixel .shot-img{border:2px solid rgba(255,255,255,.25);box-shadow:4px 4px 0
   });
 })();
 </script>
-</body>
+
+<script>
+/* journey rail: chevron buttons */
+(function(){
+  document.querySelectorAll('.journey').forEach(function(j){
+    var rail=j.querySelector('.jr-rail'), btns=j.querySelectorAll('.jr-btn'); if(!rail) return;
+    function step(){ var s=rail.querySelector('.jr-step'); return s? s.getBoundingClientRect().width+26 : 260 }
+    function upd(){ var max=rail.scrollWidth-rail.clientWidth-8;
+      btns[0].disabled=rail.scrollLeft<=8; btns[1].disabled=rail.scrollLeft>=max }
+    btns.forEach(function(b){ b.addEventListener('click',function(){
+      var n=Math.max(1,Math.floor(rail.clientWidth/step())-1);
+      rail.scrollBy({left:+b.dataset.dir*step()*n,behavior:'smooth'}) }) });
+    rail.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();
+  });
+})();
+</script></body>
 </html>

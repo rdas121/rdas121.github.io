@@ -1071,6 +1071,53 @@ html.neo .jr-btn{border:2px solid #000;box-shadow:3px 3px 0 #000;color:#000}
 html.neo .jr-btn:hover:not(:disabled){background:var(--yellow);color:#000;border-color:#000;transform:translate(-2px,-2px);box-shadow:5px 5px 0 #000}
 html.pixel .jr-btn{border-radius:0;border:3px solid #000;background:var(--panel);color:var(--coin);box-shadow:3px 3px 0 #000}
 html.pixel .jr-btn:hover:not(:disabled){background:var(--coin);color:#000}
+
+/* ===== Working with me: button + overlay ===== */
+.wwm-open{display:flex;align-items:center;gap:18px;width:100%;margin-top:22px;padding:20px 24px;text-align:left;font:inherit;color:var(--ink);cursor:pointer;border-radius:22px;border:1px solid rgba(17,17,26,.10);background:rgba(255,255,255,.7);box-shadow:0 8px 28px rgba(20,20,40,.06);transition:transform .2s,box-shadow .2s}
+.wwm-open:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(20,20,40,.10)}
+.wwm-open:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wwm-ic{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--accent);color:#fff}
+.wwm-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.wwm-t{flex:1;display:flex;flex-direction:column;gap:2px}.wwm-t b{font-size:17px;font-weight:600}.wwm-t small{font-size:14px;color:var(--muted)}
+.wwm-arr{font-size:22px;color:var(--accent)}
+.wwm{position:fixed;inset:0;margin:auto;height:fit-content;padding:0;border:0;background:transparent;max-width:min(860px,calc(100vw - 32px));width:100%;max-height:calc(100vh - 48px);overflow:visible;color:var(--ink)}
+.wwm::backdrop{background:rgba(15,15,30,.42);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.wwm[open] .wwm-card{animation:wwmIn .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes wwmIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+.wwm-card{background:#fff;border-radius:28px;box-shadow:0 30px 80px rgba(10,10,30,.25);max-height:calc(100vh - 48px);overflow:auto;padding:clamp(24px,4vw,44px)}
+.wwm-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:26px}
+.wwm-top h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,44px);letter-spacing:-.02em;line-height:1.05;margin-top:6px}
+.wwm-top h2 em{color:var(--accent)}
+.wwm-x{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(17,17,26,.14);background:#fff;font-size:26px;line-height:1;cursor:pointer;color:var(--ink)}
+.wwm-x:hover{background:var(--accent);color:#fff;border-color:transparent}
+.wwm-body{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,44px)}
+.wwm-body h3{display:flex;align-items:baseline;gap:10px;font-size:13px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);padding-bottom:12px;border-bottom:1.5px solid rgba(17,17,26,.1);margin-bottom:6px}
+.wwm-body ul{list-style:none;padding:0;margin:0}
+.wwm-body li{padding:16px 0;border-bottom:1px solid rgba(17,17,26,.07)}.wwm-body li:last-child{border-bottom:0}
+.wwm-body li b{display:block;font-size:16px;font-weight:600;margin-bottom:6px}
+.wwm-body li p{font-size:15px;line-height:1.6;color:var(--muted);margin:0}
+html.wwm-lock{overflow:hidden}
+@media (max-width:760px){.wwm-body{grid-template-columns:1fr}.wwm{max-height:calc(100vh - 24px)}.wwm-card{border-radius:22px;max-height:calc(100vh - 24px)}}
+/* neo */
+html.neo .wwm-open{background:var(--yellow);border:var(--b);border-radius:var(--r);box-shadow:var(--sh)}
+html.neo .wwm-open:hover{transform:translate(-4px,-4px);box-shadow:var(--sh-lg);background:var(--pink)}
+html.neo .wwm-ic{background:#000;border-radius:8px}html.neo .wwm-arr{color:#000}html.neo .wwm-t small{color:#000}
+html.neo .wwm::backdrop{background:rgba(0,0,0,.35);backdrop-filter:none}
+html.neo .wwm-card{border:var(--b);border-radius:14px;box-shadow:10px 10px 0 #000}
+html.neo .wwm-top h2{font-family:var(--display);font-weight:700;letter-spacing:-.04em}
+html.neo .wwm-top h2 em{color:#000;background:var(--pink);border:var(--b);border-radius:10px;padding:0 .12em;box-shadow:var(--sh)}
+html.neo .wwm-x{border:var(--b);box-shadow:3px 3px 0 #000}html.neo .wwm-x:hover{background:var(--yellow);color:#000;border-color:#000}
+html.neo .wwm-body h3{color:#000;border-bottom:var(--b)}html.neo .wwm-body h3 span{background:var(--pink);border:1.5px solid #000;border-radius:6px;padding:0 6px}
+html.neo .wwm-body li p{color:#222}
+/* 8-bit */
+html.pixel .wwm-open{background:var(--panel);border:3px solid #000;border-radius:0;box-shadow:inset 0 0 0 2px #2C3060,4px 4px 0 #000;color:var(--ink)}
+html.pixel .wwm-open:hover{box-shadow:inset 0 0 0 2px var(--coin),4px 8px 0 #000}
+html.pixel .wwm-ic{border-radius:0;background:var(--accent);color:#000}html.pixel .wwm-arr{color:var(--coin)}
+html.pixel .wwm-card{background:var(--panel);color:var(--ink);border:3px solid #000;border-radius:0;box-shadow:inset 0 0 0 2px #2C3060,8px 8px 0 #000}
+html.pixel .wwm-top h2{color:var(--ink)}html.pixel .wwm-top h2 em{color:var(--coin)}
+html.pixel .wwm-x{border-radius:0;border:3px solid #000;background:var(--accent);color:#000}
+html.pixel .wwm-body h3{color:var(--coin);border-bottom:3px dashed #2C3060}
+html.pixel .wwm-body li{border-bottom:2px solid rgba(255,255,255,.07)}html.pixel .wwm-body li b{color:var(--ink)}html.pixel .wwm-body li p{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -1157,6 +1204,7 @@ html.pixel .jr-btn:hover:not(:disabled){background:var(--coin);color:#000}
         <div class="val reveal"><span class="k">03</span><h3>Follow-through</h3><p>Deadlines slip and priorities change. Saying so out loud is what matters.</p></div>
         <div class="val reveal"><span class="k">04</span><h3>High impact</h3><p>I do my best work on P0s that ship and reach a lot of people.</p></div>
       </div>
+      <button type="button" class="wwm-open reveal" aria-haspopup="dialog" aria-controls="wwm"><span class="wwm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span><span class="wwm-t"><b>Working with me</b><small>How I collaborate and communicate</small></span><span class="wwm-arr" aria-hidden="true">↗</span></button>
       <div class="quote reveal">
         <span class="q" aria-hidden="true">“</span>
         <p>I’m a systems thinker. I like seeing every moving piece at once, <em>and I’m usually the one connecting the dots for the team.</em></p>
@@ -2558,6 +2606,28 @@ html.pixel .jr-btn:hover:not(:disabled){background:var(--coin);color:#000}
       rail.scrollBy({left:+b.dataset.dir*step()*n,behavior:'smooth'}) }) });
     rail.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();
   });
+})();
+</script>
+<dialog class="wwm" id="wwm" aria-labelledby="wwm-h">
+  <div class="wwm-card">
+    <div class="wwm-top"><div><span class="eyebrow">A user manual</span><h2 id="wwm-h">Working <em>with me</em></h2></div><button type="button" class="wwm-x" aria-label="Close">×</button></div>
+    <div class="wwm-body">
+      <section><h3><span>01</span>Collaboration</h3><ul><li><b>Gold stars</b><p>I like people who are tactical, can explain something super complex in simple terms, and consistently keep me in the loop on things that are relevant to me.</p></li><li><b>Responsiveness</b><p>I always strive to clear my unreads in chat at the end of the day. I hate to be a bottleneck and keep people waiting. In the same vein, I don’t like it when someone consistently takes more than a day to respond. If you’re busy, just let me know when you might be available rather than ghost me.</p></li><li><b>Trust gains</b><p>The best way to gain my trust is showing extreme collaboration and ownership. This can be done by going out of your way to fully understand the problem and looping in all the right people (including me!) early and often.</p></li><li><b>Trust gaps</b><p>The easiest way to lose my trust is not sharing and acting on feedback I share.</p></li></ul></section>
+      <section><h3><span>02</span>Communication</h3><ul><li><b>Medium</b><p>I am always active on Slack, email and Figma notifications. DM me to give me a heads up about something I should look at.</p></li><li><b>1:1s</b><p>I like to keep 1:1s as much as possible. It’s okay if you move it around (I might too!) but if you need to cancel, I’d prefer a heads up. I prefer documenting instances in a shared document, which helps both of us keep track of personal and professional growth.</p></li><li><b>Over-communicate</b><p>Feel free to add me to any chats, docs, meetings, emails, etc. as you see fit. I would prefer to decline something than to realize too late that I should have participated.</p></li></ul></section>
+    </div>
+  </div>
+</dialog>
+<script>
+/* Working with me overlay */
+(function(){
+  var d=document.getElementById('wwm'), o=document.querySelector('.wwm-open'); if(!d||!o) return;
+  var root=document.documentElement;
+  function open(){ if(d.showModal){ d.showModal() } else { d.setAttribute('open','') } root.classList.add('wwm-lock'); d.querySelector('.wwm-card').scrollTop=0 }
+  function close(){ if(d.close){ d.close() } else { d.removeAttribute('open') } }
+  o.addEventListener('click',open);
+  d.querySelector('.wwm-x').addEventListener('click',close);
+  d.addEventListener('click',function(e){ if(e.target===d) close() });   // click outside the card
+  d.addEventListener('close',function(){ root.classList.remove('wwm-lock'); o.focus() });
 })();
 </script></body>
 </html>

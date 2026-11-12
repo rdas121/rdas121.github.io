@@ -1356,6 +1356,26 @@ html.dot .socials a:hover::before,html.dot .socials a:focus-visible::before{--dr
 html.dot .socials a span,html.dot .socials a small,html.dot .socials a .arw{transition:color .2s .12s}
 html.dot .socials a:hover .arw{color:#000}
 @media (prefers-reduced-motion:reduce){html.dot .socials a::before{transition:none}}
+
+/* experience: one-line summary under each company */
+.xr:has(.sum){row-gap:2px}
+.xr .sum{grid-column:2 / -2;margin-top:0;padding-bottom:4px;font-size:13px;line-height:1.5;color:var(--muted);max-width:92ch;text-wrap:pretty}
+@media (max-width:860px){.xr{flex-wrap:wrap}.xr .sum{order:10;flex:1 0 100%;padding-left:40px;margin-top:-2px}}
+@media (max-width:520px){.xr .sum{padding-left:38px;font-size:12.5px}}
+html.neo .xr .sum{color:#3D3D3D;font-size:13.5px}
+html.dot .xr .sum{color:var(--muted)}
+html.neo a.xr:hover .sum{color:#000}
+
+/* experience summaries on narrow screens: the summary is the last child now */
+@media (max-width:860px){.xr>span.sum:last-child{flex:1 0 100%;width:auto}.xr .chev{flex:none;width:14px}}
+
+/* social tiles: straight arrow; Modern gets a soft glow instead of the swipe-up fill */
+.socials a:hover .arw{transform:translateX(5px)}
+html:not(.neo):not(.dot):not(.pixel) .socials a::before{display:none}
+html:not(.neo):not(.dot):not(.pixel) .socials a{transition:box-shadow .4s var(--ease),border-color .4s,transform .4s var(--ease)}
+html:not(.neo):not(.dot):not(.pixel) .socials a:hover{color:var(--ink);border-color:color-mix(in srgb,var(--accent) 35%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 18%,transparent),0 0 28px color-mix(in srgb,var(--accent) 22%,transparent),0 12px 36px color-mix(in srgb,var(--accent) 14%,transparent);transform:translateY(-1px)}
+html:not(.neo):not(.dot):not(.pixel) .socials a:hover small{color:var(--muted)}
+html:not(.neo):not(.dot):not(.pixel) .socials a:hover .arw{color:var(--accent)}
 </style>
 </head>
 <body>
@@ -1421,12 +1441,12 @@ html.dot .socials a:hover .arw{color:#000}
       </div>
       <div class="xp" role="table" aria-label="Work experience">
         <div class="xr xh" role="row"><span></span><span role="columnheader">Company</span><span role="columnheader">Role</span><span role="columnheader">Years</span><span role="columnheader" class="c-focus">Focus</span><span role="columnheader" class="c-cs">Work</span><span></span></div>
-        <a class="xr now" href="#cs-legalzoom" role="row"><span class="logo sm" style="background:#f45b28" aria-hidden="true"><img src="img/logo-legalzoom.svg" alt=""></span><span class="co" role="cell">LegalZoom</span><span class="role" role="cell">Staff UX Designer</span><span class="yrs" role="cell">2023 – Now</span><span class="focus c-focus" role="cell">Consumer, web, strategy</span><span class="c-cs" role="cell"><span class="cs">1 case study</span></span><span class="chev" aria-hidden="true">›</span></a>
-        <div class="xr" role="row"><span class="logo sm" style="background:#FF5000" aria-hidden="true"><img src="img/logo-sixt.png" alt=""></span><span class="co" role="cell">SIXT</span><span class="role" role="cell">Staff UX Designer</span><span class="yrs" role="cell">2023</span><span class="focus c-focus" role="cell">Mobility, app UX</span><span class="c-cs" role="cell"><span class="none">—</span></span><span></span></div>
-        <a class="xr" href="#cs-meesho-grocery" role="row"><span class="logo sm" style="background:#570B48" aria-hidden="true"><img src="img/logo-meesho.png" alt=""></span><span class="co" role="cell">Meesho</span><span class="role" role="cell">Senior Design Manager</span><span class="yrs" role="cell">2022 – 23</span><span class="focus c-focus" role="cell">Leadership, mobile, NBU</span><span class="c-cs" role="cell"><span class="cs">1 case study</span></span><span class="chev" aria-hidden="true">›</span></a>
-        <a class="xr" href="#myntra" role="row"><span class="logo sm" style="background:#fff" aria-hidden="true"><img src="img/logo-myntra.png" alt=""></span><span class="co" role="cell">Myntra</span><span class="role" role="cell">Lead UX → Sr. Design Manager</span><span class="yrs" role="cell">2018 – 22</span><span class="focus c-focus" role="cell">Supply chain, design system</span><span class="c-cs" role="cell"><span class="cs">3 case studies</span></span><span class="chev" aria-hidden="true">›</span></a>
-        <a class="xr" href="#treebo" role="row"><span class="logo sm" style="background:#F7F7F7" aria-hidden="true"><img src="img/logo-treebo.png" alt=""></span><span class="co" role="cell">Treebo Hotels</span><span class="role" role="cell">Senior Product Designer</span><span class="yrs" role="cell">2017 – 18</span><span class="focus c-focus" role="cell">Hospitality, B2B tools</span><span class="c-cs" role="cell"><span class="cs">2 case studies</span></span><span class="chev" aria-hidden="true">›</span></a>
-        <div class="xr" role="row"><span class="logo sm" style="background:#fff" aria-hidden="true"><img src="img/logo-signeasy.png" alt=""></span><span class="co" role="cell">SignEasy</span><span class="role" role="cell">Product Designer</span><span class="yrs" role="cell">2015 – 17</span><span class="focus c-focus" role="cell">SaaS, mobile</span><span class="c-cs" role="cell"><span class="none">—</span></span><span></span></div>
+        <a class="xr now" href="#cs-legalzoom" role="row"><span class="logo sm" style="background:#f45b28" aria-hidden="true"><img src="img/logo-legalzoom.svg" alt=""></span><span class="co" role="cell">LegalZoom</span><span class="role" role="cell">Staff UX Designer</span><span class="yrs" role="cell">2023 – Now</span><span class="focus c-focus" role="cell">Consumer, web, strategy</span><span class="c-cs" role="cell"><span class="cs">1 case study</span></span><span class="chev" aria-hidden="true">›</span><span class="sum" role="cell">Design lead for estate planning: rebuilt a 20-year-old experience, lifting AOV 12% and cutting task time 60%. Also leads design for the LegalZoom Business app and Contracts.</span></a>
+        <div class="xr" role="row"><span class="logo sm" style="background:#FF5000" aria-hidden="true"><img src="img/logo-sixt.png" alt=""></span><span class="co" role="cell">SIXT</span><span class="role" role="cell">Staff UX Designer</span><span class="yrs" role="cell">2023</span><span class="focus c-focus" role="cell">Mobility, app UX</span><span class="c-cs" role="cell"><span class="none">—</span></span><span></span><span class="sum" role="cell">IC design lead for SIXT RIDE, leading the branding and design overhaul of the vertical with stakeholders around the world.</span></div>
+        <a class="xr" href="#cs-meesho-grocery" role="row"><span class="logo sm" style="background:#570B48" aria-hidden="true"><img src="img/logo-meesho.png" alt=""></span><span class="co" role="cell">Meesho</span><span class="role" role="cell">Senior Design Manager</span><span class="yrs" role="cell">2022 – 23</span><span class="focus c-focus" role="cell">Leadership, mobile, NBU</span><span class="c-cs" role="cell"><span class="cs">1 case study</span></span><span class="chev" aria-hidden="true">›</span><span class="sum" role="cell">Led a team of 3 on Meesho Superstore (grocery), 0→1 bets for tier-II/III users. Revamped design hiring and co-created the career ladder.</span></a>
+        <a class="xr" href="#myntra" role="row"><span class="logo sm" style="background:#fff" aria-hidden="true"><img src="img/logo-myntra.png" alt=""></span><span class="co" role="cell">Myntra</span><span class="role" role="cell">Lead UX → Sr. Design Manager</span><span class="yrs" role="cell">2018 – 22</span><span class="focus c-focus" role="cell">Supply chain, design system</span><span class="c-cs" role="cell"><span class="cs">3 case studies</span></span><span class="chev" aria-hidden="true">›</span><span class="sum" role="cell">Led a team of 5 on partner and supply chain tools. Built a design system, digitised offline logistics (inventory health 55% → 80%) and cut returns turnaround to under 15 days.</span></a>
+        <a class="xr" href="#treebo" role="row"><span class="logo sm" style="background:#F7F7F7" aria-hidden="true"><img src="img/logo-treebo.png" alt=""></span><span class="co" role="cell">Treebo Hotels</span><span class="role" role="cell">Senior Product Designer</span><span class="yrs" role="cell">2017 – 18</span><span class="focus c-focus" role="cell">Hospitality, B2B tools</span><span class="c-cs" role="cell"><span class="cs">2 case studies</span></span><span class="chev" aria-hidden="true">›</span><span class="sum" role="cell">Designed the web-based central reservation system, later sold as SaaS. Rewards and non-refundable plans doubled app conversion (8% → 15%).</span></a>
+        <div class="xr" role="row"><span class="logo sm" style="background:#fff" aria-hidden="true"><img src="img/logo-signeasy.png" alt=""></span><span class="co" role="cell">SignEasy</span><span class="role" role="cell">Product Designer</span><span class="yrs" role="cell">2015 – 17</span><span class="focus c-focus" role="cell">SaaS, mobile</span><span class="c-cs" role="cell"><span class="none">—</span></span><span></span><span class="sum" role="cell">First in-house UX designer: set the visual language across iOS, Android and web, and designed Request Signature.</span></div>
         <div class="xr" role="row"><span class="logo sm" style="background:#1A1A1C;color:var(--accent);font-family:var(--display);font-size:14px" aria-hidden="true">L</span><span class="co" role="cell">Life.Pixel.Art</span><span class="role" role="cell">Founder</span><span class="yrs" role="cell">2013 – 15</span><span class="focus c-focus" role="cell">Brand, studio</span><span class="c-cs" role="cell"><span class="none">—</span></span><span></span></div>
       </div>
     </div>
@@ -1458,10 +1478,10 @@ html.dot .socials a:hover .arw{color:#000}
       <h2 class="reveal" style="margin-top:18px">Let’s make something <em>useful.</em></h2>
       <p class="sub">I’m always up for a conversation about hard product problems, design leadership or a new role. I reply to DMs within a day.</p>
       <div class="socials">
-        <a href="https://www.linkedin.com/in/rdas121/"><div><span>LinkedIn</span><small>in/rdas121</small></div><span class="arw">↗</span></a>
-        <a href="https://dribbble.com/rdas121"><div><span>Dribbble</span><small>@rdas121</small></div><span class="arw">↗</span></a>
-        <a href="https://medium.com/@rdas121"><div><span>Medium</span><small>@rdas121</small></div><span class="arw">↗</span></a>
-        <a href="https://twitter.com/rdas121"><div><span>X / Twitter</span><small>@rdas121</small></div><span class="arw">↗</span></a>
+        <a href="https://www.linkedin.com/in/rdas121/"><div><span>LinkedIn</span><small>in/rdas121</small></div><span class="arw">→</span></a>
+        <a href="https://dribbble.com/rdas121"><div><span>Dribbble</span><small>@rdas121</small></div><span class="arw">→</span></a>
+        <a href="https://medium.com/@rdas121"><div><span>Medium</span><small>@rdas121</small></div><span class="arw">→</span></a>
+        <a href="https://twitter.com/rdas121"><div><span>X / Twitter</span><small>@rdas121</small></div><span class="arw">→</span></a>
       </div>
       <footer>
         <span>© 2026 Rahul Das · Product designer, Bengaluru</span>

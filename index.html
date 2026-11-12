@@ -1351,7 +1351,7 @@ html.dot .wwm-body li p{color:var(--muted)}
     <div class="top-r">
       <div class="mode" role="group" aria-label="Design style">
         <button type="button" data-mode="modern" aria-pressed="true">Modern</button>
-        <button type="button" data-mode="pixel" aria-pressed="false">8-bit</button>
+        <button type="button" data-mode="pixel" aria-pressed="false" hidden>8-bit</button>
         <button type="button" data-mode="neo" aria-pressed="false">Neo</button>
         <button type="button" data-mode="dot" aria-pressed="false">Dot</button>
       </div>
@@ -2710,7 +2710,7 @@ html.dot .wwm-body li p{color:var(--muted)}
     if(save){try{localStorage.setItem('rd-style',m)}catch(e){}}
   }
   var saved=null;try{saved=localStorage.getItem('rd-style')}catch(e){}
-  if(saved==='pixel'||saved==='neo'||saved==='dot')set(saved,false);
+  if(saved==='neo'||saved==='dot')set(saved,false);  // 8-bit is hidden for now
   btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.mode,true)})});
 })();
 </script>
@@ -2821,6 +2821,61 @@ html.dot .wwm-body li p{color:var(--muted)}
 </script>
 
 <script>
+/* Dot: soft mechanical clicks in the spirit of Nothing's UI (short filtered noise + a tiny tone, very low volume) */
+(function(){
+  var root=document.documentElement, ctx=null, noise=null, lastHover=0;
+  function ac(){
+    if(!ctx){ var A=window.AudioContext||window.webkitAudioContext; if(!A) return null; ctx=new A();
+      var n=Math.floor(ctx.sampleRate*0.05); noise=ctx.createBuffer(1,n,ctx.sampleRate); var d=noise.getChannelData(0);
+      for(var i=0;i<n;i++) d[i]=Math.random()*2-1; }
+    if(ctx.state==='suspended') ctx.resume(); return ctx;
+  }
+  function live(){ return root.classList.contains('dot') }
+  // a click: a few ms of band-passed noise, like a small switch
+  function click(freq,vol,dur,delay){
+    var c=ac(); if(!c) return; var t=c.currentTime+(delay||0);
+    var s=c.createBufferSource(), bp=c.createBiquadFilter(), g=c.createGain();
+    s.buffer=noise; bp.type='bandpass'; bp.frequency.value=freq; bp.Q.value=1.4;
+    g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    s.connect(bp); bp.connect(g); g.connect(c.destination); s.start(t); s.stop(t+dur+0.01);
+  }
+  // a tiny pure tone that gives the click a little pitch
+  function tone(f,vol,dur,delay){
+    var c=ac(); if(!c) return; var t=c.currentTime+(delay||0);
+    var o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=f;
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+0.003);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+dur+0.02);
+  }
+  var sfx={
+    click:function(){ click(3200,0.10,0.018); tone(1800,0.012,0.035) },                      // press
+    tick:function(){ click(5200,0.035,0.008) },                                               // hover
+    open:function(){ click(2600,0.09,0.016); click(3600,0.08,0.016,0.055); tone(2100,0.01,0.05,0.055) }, // into a page
+    back:function(){ click(3600,0.08,0.016); click(2400,0.09,0.018,0.055) },                  // back out
+    hello:function(){ [0,0.05,0.10].forEach(function(d,i){ click(2800+i*700,0.07,0.014,d) }); tone(1568,0.014,0.18,0.16) } // switch into Dot
+  };
+  window.__dotSfx=sfx;
+  var was=live();
+  document.querySelectorAll('.mode button[data-mode]').forEach(function(b){
+    b.addEventListener('click',function(){ var n=b.dataset.mode==='dot'; if(n&&!was){ ac(); setTimeout(sfx.hello,20) } was=n; });
+  });
+  document.addEventListener('click',function(e){
+    if(!live()) return; var a=e.target.closest('a,button,.droid-scr'); if(!a||a.closest('.mode')) return;
+    var h=a.getAttribute('href')||'', t=h.charAt(0)==='#'&&h.length>1&&document.getElementById(h.slice(1));
+    if(a.classList.contains('back')) sfx.back();
+    else if(t&&(t.classList.contains('company')||t.classList.contains('cs'))) sfx.open();
+    else sfx.click();
+  },true);
+  document.addEventListener('pointerover',function(e){
+    if(!live()||e.pointerType==='touch') return;
+    var el=e.target.closest('.bigcard,.card,.feature,a.xr,.top nav a,.next,.back,.socials a,.val,.wwm-open,.jr-btn');
+    if(!el||el.contains(e.relatedTarget)) return;
+    var n=performance.now(); if(n-lastHover<80) return; lastHover=n; if(ctx) sfx.tick();
+  });
+})();
+</script>
+
+<script>
 /* journey rail: chevron buttons */
 (function(){
   document.querySelectorAll('.journey').forEach(function(j){
@@ -2839,8 +2894,8 @@ html.dot .wwm-body li p{color:var(--muted)}
   <div class="wwm-card">
     <div class="wwm-top"><div><span class="eyebrow">A user manual</span><h2 id="wwm-h">Working <em>with me</em></h2></div><button type="button" class="wwm-x" aria-label="Close">×</button></div>
     <div class="wwm-body">
-      <section><h3><span>01</span><i class="ic" aria-hidden="true">diversity_3</i>Collaboration</h3><ul><li><span class="ic" aria-hidden="true">star</span><div><b>Gold stars</b><p>I like people who are tactical, can explain something super complex in simple terms, and consistently keep me in the loop on things that are relevant to me.</p></div></li><li><span class="ic" aria-hidden="true">bolt</span><div><b>Responsiveness</b><p>I always strive to clear my unreads in chat at the end of the day. I hate to be a bottleneck and keep people waiting. In the same vein, I don’t like it when someone consistently takes more than a day to respond. If you’re busy, just let me know when you might be available rather than ghost me.</p></div></li><li><span class="ic" aria-hidden="true">handshake</span><div><b>Trust gains</b><p>The best way to gain my trust is showing extreme collaboration and ownership. This can be done by going out of your way to fully understand the problem and looping in all the right people (including me!) early and often.</p></div></li><li><span class="ic" aria-hidden="true">heart_broken</span><div><b>Trust gaps</b><p>The easiest way to lose my trust is not sharing and acting on feedback I share.</p></div></li></ul></section>
-      <section><h3><span>02</span><i class="ic" aria-hidden="true">forum</i>Communication</h3><ul><li><span class="ic" aria-hidden="true">chat</span><div><b>Medium</b><p>I am always active on Slack, email and Figma notifications. DM me to give me a heads up about something I should look at.</p></div></li><li><span class="ic" aria-hidden="true">event_repeat</span><div><b>1:1s</b><p>I like to keep 1:1s as much as possible. It’s okay if you move it around (I might too!) but if you need to cancel, I’d prefer a heads up. I prefer documenting instances in a shared document, which helps both of us keep track of personal and professional growth.</p></div></li><li><span class="ic" aria-hidden="true">campaign</span><div><b>Over-communicate</b><p>Feel free to add me to any chats, docs, meetings, emails, etc. as you see fit. I would prefer to decline something than to realize too late that I should have participated.</p></div></li></ul></section>
+      <section><h3><span>01</span><i class="ic" aria-hidden="true">diversity_3</i>Collaboration</h3><ul><li><span class="ic" aria-hidden="true">workspace_premium</span><div><b>Gold stars</b><p>I like people who are tactical, can explain something super complex in simple terms, and consistently keep me in the loop on things that are relevant to me.</p></div></li><li><span class="ic" aria-hidden="true">bolt</span><div><b>Responsiveness</b><p>I always strive to clear my unreads in chat at the end of the day. I hate to be a bottleneck and keep people waiting. In the same vein, I don’t like it when someone consistently takes more than a day to respond. If you’re busy, just let me know when you might be available rather than ghost me.</p></div></li><li><span class="ic" aria-hidden="true">handshake</span><div><b>Trust gains</b><p>The best way to gain my trust is showing extreme collaboration and ownership. This can be done by going out of your way to fully understand the problem and looping in all the right people (including me!) early and often.</p></div></li><li><span class="ic" aria-hidden="true">report</span><div><b>Trust gaps</b><p>The easiest way to lose my trust is not sharing and acting on feedback I share.</p></div></li></ul></section>
+      <section><h3><span>02</span><i class="ic" aria-hidden="true">forum</i>Communication</h3><ul><li><span class="ic" aria-hidden="true">chat</span><div><b>Medium</b><p>I am always active on Slack, email and Figma notifications. DM me to give me a heads up about something I should look at.</p></div></li><li><span class="ic" aria-hidden="true">event_available</span><div><b>1:1s</b><p>I like to keep 1:1s as much as possible. It’s okay if you move it around (I might too!) but if you need to cancel, I’d prefer a heads up. I prefer documenting instances in a shared document, which helps both of us keep track of personal and professional growth.</p></div></li><li><span class="ic" aria-hidden="true">campaign</span><div><b>Over-communicate</b><p>Feel free to add me to any chats, docs, meetings, emails, etc. as you see fit. I would prefer to decline something than to realize too late that I should have participated.</p></div></li></ul></section>
     </div>
   </div>
 </dialog>

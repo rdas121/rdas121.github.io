@@ -1006,6 +1006,47 @@ html.pixel .hero h1 .line,html.neo .hero h1 .line{margin-bottom:0}
 /* title + subtext: one-line titles, wider subtext */
 .contact .sub{max-width:72ch}
 .contact h2{text-wrap:wrap}
+
+/* ===== Meesho user journey: Android frames on a horizontal rail ===== */
+.journey{margin:clamp(28px,4vw,48px) 0;padding:0}
+.jr-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin:0 auto 18px;max-width:min(1120px,100%);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.jr-head span:first-child{color:var(--ink);font-weight:600}
+.jr-rail{display:flex;gap:44px;overflow-x:auto;scroll-snap-type:x proximity;padding:8px 4px 26px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;outline:none}
+.jr-stage{flex:none;display:flex;flex-direction:column}
+.jr-lbl{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);padding:0 0 12px;margin-bottom:18px;border-bottom:1.5px solid var(--rule)}
+.jr-steps{display:flex;gap:26px}
+.jr-step{flex:none;width:236px;scroll-snap-align:start}
+.droid{position:relative;width:236px;height:452px;padding:10px;border-radius:34px;background:#1C1C1E;box-shadow:inset 0 0 0 2px #3A3A3C,0 18px 40px rgba(20,20,40,.18)}
+.droid::before{content:"";position:absolute;right:-3px;top:110px;width:3px;height:54px;border-radius:2px;background:#2C2C2E}
+.droid .cam{position:absolute;left:50%;top:18px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#0B0B0C;box-shadow:0 0 0 2px #2A2A2C;z-index:3}
+.droid-scr{position:relative;width:216px;height:432px;border-radius:25px;overflow:hidden auto;background:#fff;scrollbar-width:none;outline:none}
+.droid-scr::-webkit-scrollbar{display:none}
+.droid-scr img{display:block;width:100%;height:auto;padding-top:0}
+.droid .bar{position:absolute;left:50%;bottom:16px;width:72px;height:4px;margin-left:-36px;border-radius:2px;background:rgba(0,0,0,.35);z-index:3;pointer-events:none}
+.droid.tall::after{content:"↕ scroll";position:absolute;right:16px;bottom:30px;z-index:3;font:600 10px var(--mono);letter-spacing:.04em;color:#fff;background:rgba(0,0,0,.6);padding:3px 8px;border-radius:999px;pointer-events:none}
+.droid-scr:focus-visible{box-shadow:0 0 0 3px var(--accent)}
+.jr-txt{padding:16px 2px 0}
+.jr-txt b{display:block;font-size:15px;font-weight:600;color:var(--ink)}
+.jr-txt b span{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);margin-right:8px;letter-spacing:.04em}
+.jr-txt p{margin-top:6px;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.journey figcaption{max-width:min(1120px,100%);margin:6px auto 0;font-size:13px;color:var(--muted)}
+@media (max-width:760px){.jr-rail{gap:32px}.jr-steps{gap:18px}.jr-step,.droid{width:208px}.droid{height:396px}.droid-scr{width:188px;height:376px;border-radius:22px}}
+.jr-issue{display:flex;gap:8px;align-items:flex-start;margin-top:10px!important;font-size:12.5px!important;line-height:1.45;color:#B42318!important}
+.jr-issue span{flex:none;width:16px;height:16px;border-radius:50%;background:#B42318;color:#fff;font:700 11px/16px var(--mono);text-align:center;margin-top:1px}
+html.pixel .jr-issue{color:#FF8A80!important}html.pixel .jr-issue span{background:#FF5A4E;color:#000}
+html.neo .jr-issue{color:#000!important;background:#FFE3E0;border:1.5px solid #000;border-radius:8px;padding:6px 8px}html.neo .jr-issue span{background:#000}
+/* Neo */
+html.neo .droid{background:#000;box-shadow:6px 6px 0 #000;border:2px solid #000}
+html.neo .jr-lbl{display:inline-block;align-self:flex-start;color:#000;background:var(--pink);border:var(--b);border-radius:999px;padding:4px 12px;margin-bottom:18px}
+html.neo .jr-stage:nth-child(2n) .jr-lbl{background:var(--yellow)}
+html.neo .jr-txt b span{color:#000;background:var(--yellow);border:1.5px solid #000;border-radius:6px;padding:1px 6px}
+html.neo .jr-head span:first-child{color:#000}
+/* 8-bit */
+html.pixel .droid{border:3px solid #000;box-shadow:4px 4px 0 #000}
+html.pixel .droid-scr{border-radius:0}
+html.pixel .jr-lbl{color:var(--coin);border-bottom:3px dashed var(--rule)}
+html.pixel .jr-txt b,html.pixel .jr-head span:first-child{color:var(--ink)}
+html.pixel .jr-txt b span{color:var(--coin)}
 </style>
 </head>
 <body>
@@ -1158,7 +1199,7 @@ html.pixel .hero h1 .line,html.neo .hero h1 .line{margin-bottom:0}
     </header>
     <p class="co-count">1 case study</p>
       <a class="feature clip" href="#cs-meesho-grocery">
-        <div class="media"><img class="px" src="img/nbu.jpg" alt="A family shopping on a phone together"></div>
+        <div class="media"><img class="px" src="img/nbu.jpg" alt="A mother and her two sons looking at a phone together at home"></div>
         <div class="info">
           <div>
             <span class="num">01 · 2022</span>
@@ -1941,7 +1982,7 @@ html.pixel .hero h1 .line,html.neo .hero h1 .line{margin-bottom:0}
       <p class="cs-dek">Redesigning Superstore, Meesho’s grocery app, around how first-time internet users in small-town India actually shop, and more than doubling activation along the way.</p>
       <div class="co-tags"><span>Mobile web</span><span>User research</span><span>NBU</span></div>
     </header>
-    <figure class="cs-cover"><img src="img/nbu.jpg" alt="Groceries and fresh produce at a local market"></figure>
+    <figure class="cs-cover"><img src="img/nbu.jpg" alt="A mother and her two sons looking at a phone together at home" style="object-position:50% 6%"></figure>
 
     <div class="cs-stats">
       <div><span class="ic" aria-hidden="true">trending_up</span><b>9% → 24%</b><span>Activation, against a 15–20% target</span></div>
@@ -1977,7 +2018,11 @@ html.pixel .hero h1 .line,html.neo .hero h1 .line{margin-bottom:0}
     <article class="cs-body">
       <p>Between January and March 2022 the team launched a new mobile web app in two months, before any user research.</p>
     </article>
-    <figure class="cs-fig wide"><img src="img/ms/ms-1.jpg" alt="Superstore MVP user journey from acquisition channels through home, deals, product lists, checkout and order details" loading="lazy"><figcaption>The MVP user journey</figcaption></figure>
+    <figure class="journey" aria-label="The MVP user journey, in 7 screens">
+      <div class="jr-head"><span>The MVP user journey, screen by screen</span><span class="jr-hint">Swipe or scroll →</span></div>
+      <div class="jr-rail" tabindex="0"><div class="jr-stage"><div class="jr-lbl">1 · Land</div><div class="jr-steps"><div class="jr-step"><div class="droid tall"><i class="cam" aria-hidden="true"></i><div class="droid-scr" tabindex="0" aria-label="Home screen, scrollable"><img src="img/ms/j-01.jpg" alt="MVP home with a first-order 50% off banner, lowest price deals and top picks" loading="lazy"></div><i class="bar" aria-hidden="true"></i></div><div class="jr-txt"><b><span>01</span>Home</b><p>A first-order discount, lowest-price deals and a long list of top picks.</p><p class="jr-issue"><span aria-hidden="true">!</span>Looked like regular Meesho, so many couldn’t tell this was a grocery store.</p></div></div><div class="jr-step"><div class="droid tall"><i class="cam" aria-hidden="true"></i><div class="droid-scr" tabindex="0" aria-label="The ₹1 deal screen, scrollable"><img src="img/ms/j-02.jpg" alt="MVP home with a bar saying add items worth ₹50 to unlock the ₹1 deal" loading="lazy"></div><i class="bar" aria-hidden="true"></i></div><div class="jr-txt"><b><span>02</span>The ₹1 deal</b><p>A sticky bar asks her to add ₹50 more to unlock a ₹1 item.</p><p class="jr-issue"><span aria-hidden="true">!</span>Pulled in deal seekers who redeemed once and never came back.</p></div></div></div></div><div class="jr-stage"><div class="jr-lbl">2 · Find</div><div class="jr-steps"><div class="jr-step"><div class="droid"><i class="cam" aria-hidden="true"></i><div class="droid-scr" tabindex="0" aria-label="Search screen"><img src="img/ms/j-03.jpg" alt="MVP search with an empty field and a delivery cut-off tooltip" loading="lazy"></div><i class="bar" aria-hidden="true"></i></div><div class="jr-txt"><b><span>03</span>Search</b><p>An empty box, with only a delivery-time tooltip for company.</p><p class="jr-issue"><span aria-hidden="true">!</span>New users didn’t know what to type. Only 6% searched.</p></div></div><div class="jr-step"><div class="droid"><i class="cam" aria-hidden="true"></i><div class="droid-scr" tabindex="0" aria-label="Category screen"><img src="img/ms/j-04.jpg" alt="MVP fruits category list with market prices and discounts" loading="lazy"></div><i class="bar" aria-hidden="true"></i></div><div class="jr-txt"><b><span>04</span>Category</b><p>A plain list of fruits with market price and discount.</p><p class="jr-issue"><span aria-hidden="true">!</span>Small images and no browsing cues made a full basket hard to build.</p></div></div></div></div><div class="jr-stage"><div class="jr-lbl">3 · Checkout</div><div class="jr-steps"><div class="jr-step"><div class="droid"><i class="cam" aria-hidden="true"></i><div class="droid-scr" tabindex="0" aria-label="Address screen"><img src="img/ms/j-05.jpg" alt="MVP select delivery address with one unserviceable address" loading="lazy"></div><i class="bar" aria-hidden="true"></i></div><div class="jr-txt"><b><span>05</span>Address</b><p>Pick a saved address. Unserviceable ones are greyed out.</p></div></div><div class="jr-step"><div class="droid tall"><i class="cam" aria-hidden="true"></i><div class="droid-scr" tabindex="0" aria-label="Cart: deal locked screen, scrollable"><img src="img/ms/j-06.jpg" alt="MVP cart with the ₹1 deal locked and a prompt to add ₹19 more" loading="lazy"></div><i class="bar" aria-hidden="true"></i></div><div class="jr-txt"><b><span>06</span>Cart: deal locked</b><p>The ₹1 potato stays locked until she adds ₹19 more.</p></div></div><div class="jr-step"><div class="droid tall"><i class="cam" aria-hidden="true"></i><div class="droid-scr" tabindex="0" aria-label="Cart: deal unlocked screen, scrollable"><img src="img/ms/j-07.jpg" alt="MVP cart with the ₹1 deal unlocked, price breakup and pay after quality check" loading="lazy"></div><i class="bar" aria-hidden="true"></i></div><div class="jr-txt"><b><span>07</span>Cart: deal unlocked</b><p>Deal unlocked, savings shown, and she pays at the store after a quality check.</p><p class="jr-issue"><span aria-hidden="true">!</span>Baskets stayed small: ₹150 average order value against a ₹250 target.</p></div></div></div></div></div>
+      <figcaption>What a first-time shopper saw in the MVP, and what we later learned went wrong at each step. Tall screens scroll inside the phone.</figcaption>
+    </figure>
     <article class="cs-body">
       <p>Tracked from March to April 2022, every key metric missed its target:</p>
       <div class="cs-table cs-table3">

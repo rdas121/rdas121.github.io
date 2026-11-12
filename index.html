@@ -1340,6 +1340,12 @@ html.dot .wwm-body li p{color:var(--muted)}
 .feature.feature-split .viz.viz-crs{display:flex;padding:28px 22px 84px}
 .feature.feature-split .viz-crs .crs-sum{right:22px;bottom:20px}
 .feature.feature-split .viz-crs .crs .lane{height:28px}
+
+/* Dot: LED dot-matrix portrait */
+.portrait #dotmx{display:none;position:absolute;inset:0;width:100%;height:100%}
+html.dot .portrait #dotmx{display:block}
+html.dot .portrait #dots,html.dot .portrait .real{display:none!important}
+html.dot .portrait{cursor:crosshair}
 </style>
 </head>
 <body>
@@ -1374,6 +1380,7 @@ html.dot .wwm-body li p{color:var(--muted)}
         <figure class="portrait" aria-label="Portrait of Rahul Das">
           <img class="duo" src="img/portrait-duo.jpg" alt="" aria-hidden="true">
           <canvas id="dots" aria-hidden="true"></canvas>
+          <canvas id="dotmx" aria-hidden="true"></canvas>
           <img class="sprite" src="img/pixel-rahul.png" alt="" aria-hidden="true">
           <img class="real" src="img/portrait-real.jpg" alt="" aria-hidden="true">
           <img class="neo-art" src="img/neo-portrait.png" alt="Illustrated portrait of Rahul Das" loading="lazy">
@@ -2656,15 +2663,6 @@ html.dot .wwm-body li p{color:var(--muted)}
         buckets[bk].push(ch,px,py);
       }
       ctx.clearRect(0,0,W,H);
-      if(document.documentElement.classList.contains('dot')){
-        // dot-matrix: each character becomes a round dot sized by its brightness
-        var dcol=['#F2F2F2','#F2F2F2','#F2F2F2','#D71921'], dal=[0.35,0.65,1,1], rmax=Math.min(cw,fs*1.02)*0.46;
-        for(var b3=0;b3<4;b3++){ var ar=buckets[b3]; ctx.fillStyle=dcol[b3]; ctx.globalAlpha=dal[b3]; ctx.beginPath();
-          for(var q=0;q<ar.length;q+=3){ var li=RAMP.indexOf(ar[q]); var rr=rmax*(li>0?Math.pow(li/(RAMP.length-1),0.55):0.45); if(b3===3) rr=rmax*0.7;
-            var qx=ar[q+1]+cw/2, qy=ar[q+2]+fs/2; ctx.moveTo(qx+rr,qy); ctx.arc(qx,qy,rr,0,6.2832); }
-          ctx.fill(); }
-        ctx.globalAlpha=1; return;
-      }
       var styles=[[ink,0.32],[ink,0.6],[ink,0.9],[accent,1]];
       for(var b2=0;b2<4;b2++){ var arr=buckets[b2]; ctx.fillStyle=styles[b2][0]; ctx.globalAlpha=styles[b2][1];
         for(var j=0;j<arr.length;j+=3) ctx.fillText(arr[j],arr[j+1],arr[j+2]); }
@@ -2881,6 +2879,75 @@ html.dot .wwm-body li p{color:var(--muted)}
     if(!el||el.contains(e.relatedTarget)) return;
     var n=performance.now(); if(n-lastHover<80) return; lastHover=n; if(ctx) sfx.tick();
   });
+})();
+</script>
+
+<script>
+/* Dot: the portrait as an LED dot-matrix. Each dot's size follows the photo's brightness;
+   unlit dots stay faintly visible like a real panel. Dots light up in a sweep on load,
+   a slow scan line passes now and then, and the cursor acts as a magnifier. */
+(function(){
+  var root=document.documentElement, cv=document.getElementById('dotmx'); if(!cv) return;
+  var fig=cv.parentElement, ctx=cv.getContext('2d');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var photo=new Image(), mask=new Image(), loaded=0, W=0,H=0,dpr=1, cols=0, rows=0, p=0, cells=null;
+  var t0=0, raf=0, mx=-1e4, my=-1e4, hov=0, hovT=0, visible=true, lastScan=0;
+  photo.onload=mask.onload=function(){ if(++loaded===2){ build(); start(); } };
+  photo.src='img/portrait-real.jpg'; mask.src='img/portrait-dots.png';
+  function sample(img,c,r){ var o=document.createElement('canvas'); o.width=c; o.height=r; var x=o.getContext('2d'); x.imageSmoothingQuality='high'; x.drawImage(img,0,0,c,r); return x.getImageData(0,0,c,r).data; }
+  function build(){
+    var b=cv.getBoundingClientRect(); if(!b.width) return false;
+    dpr=Math.min(window.devicePixelRatio||1,2); W=b.width; H=b.height; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    cols=W<260?46:56; p=W/cols; rows=Math.ceil(H/p);
+    var ph=sample(photo,cols,rows), mk=sample(mask,cols,rows), lum=new Float32Array(cols*rows), m=new Float32Array(cols*rows), vals=[];
+    for(var i=0;i<cols*rows;i++){ var r=ph[i*4],g=ph[i*4+1],bl=ph[i*4+2]; lum[i]=(0.2126*r+0.7152*g+0.0722*bl)/255; m[i]=Math.min(1,mk[i*4+3]/200); if(m[i]>.5) vals.push(lum[i]); }
+    vals.sort(function(a,b){return a-b}); var lo=vals[Math.floor(vals.length*.04)]||0, hi=vals[Math.floor(vals.length*.995)]||1;
+    cells=new Float32Array(cols*rows*2);
+    for(var y=0;y<rows;y++) for(var x=0;x<cols;x++){
+      var k=y*cols+x, v=(lum[k]-lo)/(hi-lo); v=Math.max(0,Math.min(1,v));
+      // light local sharpening keeps glasses, brows and beard readable
+      var n=0,c=0; if(x>0){n+=lum[k-1];c++} if(x<cols-1){n+=lum[k+1];c++} if(y>0){n+=lum[k-cols];c++} if(y<rows-1){n+=lum[k+cols];c++}
+      v=Math.max(0,Math.min(1,v+((lum[k]-n/c)/(hi-lo))*0.6));
+      v=Math.pow(v,1.5)*m[k];
+      cells[k*2]=v; cells[k*2+1]=Math.random();   // brightness, per-dot jitter
+    }
+    return true;
+  }
+  function draw(now){
+    var t=(now-t0)/1000, intro=reduce?9:t, R=Math.min(W,H)*0.22;
+    hov+=((hovT?1:0)-hov)*0.18;
+    var scanY=-1; if(!reduce){ var cyc=(t-1.6)%7; if(t>1.6&&cyc<2.2) scanY=(cyc/2.2)*(rows+8)-4; }
+    ctx.clearRect(0,0,W,H);
+    var rmax=p*0.46, off=p*0.12;
+    // unlit panel dots
+    ctx.fillStyle='#202020'; ctx.beginPath();
+    for(var y=0;y<rows;y++) for(var x=0;x<cols;x++){ var cx=(x+.5)*p, cy=(y+.5)*p; ctx.moveTo(cx+off,cy); ctx.arc(cx,cy,off,0,6.2832); }
+    ctx.fill();
+    var lit=[[],[],[]], red=[];
+    for(var y2=0;y2<rows;y2++) for(var x2=0;x2<cols;x2++){
+      var k=y2*cols+x2, v=cells[k*2], j=cells[k*2+1]; if(v<0.03) continue;
+      // sweep on: top-left to bottom-right with a little randomness
+      var on=Math.max(0,Math.min(1,(intro*1.6-(x2/cols*0.35+y2/rows*0.9)-j*0.25)*4)); if(on<=0) continue;
+      var cx2=(x2+.5)*p, cy2=(y2+.5)*p, s=v*on;
+      if(scanY>-1){ var dd=Math.abs(y2-scanY); if(dd<2.5) s=Math.min(1,s+0.35*(1-dd/2.5)); }
+      if(hov>0.01){ var dx=cx2-mx, dy=cy2-my, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<R){ var f=1-d/R; s=Math.min(1,s+0.22*f*hov); if(d>R*0.82&&j<0.5) { red.push(cx2,cy2,rmax*0.55); continue; } } }
+      var r=rmax*Math.sqrt(s); if(r<off) continue;
+      lit[s>0.66?2:(s>0.33?1:0)].push(cx2,cy2,r);
+    }
+    var cols3=['rgba(242,242,242,.55)','rgba(242,242,242,.8)','#F5F5F5'];
+    for(var b=0;b<3;b++){ var a=lit[b]; ctx.fillStyle=cols3[b]; ctx.beginPath(); for(var q=0;q<a.length;q+=3){ ctx.moveTo(a[q]+a[q+2],a[q+1]); ctx.arc(a[q],a[q+1],a[q+2],0,6.2832); } ctx.fill(); }
+    if(red.length){ ctx.fillStyle='#D71921'; ctx.globalAlpha=hov; ctx.beginPath(); for(var q2=0;q2<red.length;q2+=3){ ctx.moveTo(red[q2]+red[q2+2],red[q2+1]); ctx.arc(red[q2],red[q2+1],red[q2+2],0,6.2832); } ctx.fill(); ctx.globalAlpha=1; }
+    return t<2.2||scanY>-1||hov>0.01||hovT;
+  }
+  var lastF=0;
+  function loop(now){ if(now-lastF>=32){ lastF=now; draw(now); } if(!reduce&&visible&&root.classList.contains('dot')) raf=requestAnimationFrame(loop); else raf=0; }
+  function start(){ if(!root.classList.contains('dot')||!cells) return; cancelAnimationFrame(raf); t0=performance.now(); if(reduce){ draw(t0); return; } raf=requestAnimationFrame(loop); }
+  fig.addEventListener('pointermove',function(e){ var b=cv.getBoundingClientRect(); mx=e.clientX-b.left; my=e.clientY-b.top; hovT=1; if(!raf&&!reduce&&root.classList.contains('dot')) raf=requestAnimationFrame(loop); if(reduce) draw(performance.now()); });
+  fig.addEventListener('pointerleave',function(){ hovT=0; });
+  window.addEventListener('resize',function(){ if(loaded===2&&root.classList.contains('dot')&&build()) draw(performance.now()); });
+  new MutationObserver(function(){ if(root.classList.contains('dot')){ if(loaded===2){ build(); start(); } } else { cancelAnimationFrame(raf); raf=0; } }).observe(root,{attributes:true,attributeFilter:['class']});
+  if('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible=es[0].isIntersecting; if(visible&&!raf&&!reduce&&root.classList.contains('dot')) raf=requestAnimationFrame(loop); }).observe(cv);
 })();
 </script>
 

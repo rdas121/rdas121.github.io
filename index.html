@@ -1132,6 +1132,31 @@ html.pixel .wwm-body section:nth-child(2) li>.ic{background:var(--accent)}
 
 /* hidden case studies */
 .is-hidden,[hidden].bigcard,[hidden].company{display:none!important}
+
+/* Treebo onboarding: text card with the animated phone on the right */
+.feature.feature-split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:stretch}
+.feature.feature-split .viz{display:grid;position:relative;inset:auto;grid-column:2;grid-row:1;margin:12px;border-radius:20px;min-height:360px}
+.feature.feature-split .info{grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+.feature.feature-split .info .cta{align-self:flex-start}
+.feature.feature-split .viz{min-height:400px}
+.feature.feature-split .phone{width:210px;max-width:none;height:auto;aspect-ratio:auto;gap:7px;padding:20px 14px 18px;transform:rotate(-6deg) translateY(6px);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.feature.feature-split .phone .bar{margin-top:10px}
+/* keep the phone's dark-island colours in every style */
+html .feature.feature-split .viz{--ink:#EEEBE5;--muted:#8C8982;--accent:#A78BFA;color:#EEEBE5}
+html.neo .feature.feature-split .phone .ph-t{color:#EEEBE5!important;font-family:var(--display)}
+html.neo .feature.feature-split .phone .ph-h{color:#8C8982!important}
+html.neo .feature.feature-split .step{color:#cfccc6!important;background:#161517!important;border:0!important;box-shadow:none!important}
+html.neo .feature.feature-split .viz{--accent:#FF90E8}
+.feature.feature-split:hover .phone{transform:rotate(-2deg) translateY(0)}
+@media (max-width:760px){
+  .feature.feature-split{grid-template-columns:1fr}
+  .feature.feature-split .viz{grid-column:1;grid-row:1;min-height:380px}
+  .feature.feature-split .phone{width:180px}
+  .feature.feature-split .info{grid-row:2}
+}
+html.neo .feature.feature-split .viz{border:2px solid #000;border-radius:12px}
+html.pixel .feature.feature-split .viz{border-radius:0;box-shadow:inset 0 0 0 2px #2C3060}
+@media (prefers-reduced-motion:reduce){.feature.feature-split .phone{transition:none}}
 </style>
 </head>
 <body>
@@ -1359,7 +1384,7 @@ html.pixel .wwm-body section:nth-child(2) li>.ic{background:var(--accent)}
       </div>
     </header>
     <p class="co-count">2 case studies</p>
-      <a class="feature clip" href="#cs-treebo-onboarding">
+      <a class="feature clip feature-split" href="#cs-treebo-onboarding">
         <div class="viz viz-onb" aria-hidden="true">
               <div class="blob"></div>
               <div class="phone">

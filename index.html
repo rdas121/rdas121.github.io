@@ -1345,7 +1345,6 @@ html.dot .wwm-body li p{color:var(--muted)}
 .portrait #dotmx{display:none;position:absolute;inset:0;width:100%;height:100%}
 html.dot .portrait #dotmx{display:block}
 html.dot .portrait #dots,html.dot .portrait .real{display:none!important}
-html.dot .portrait{cursor:crosshair}
 
 /* Dot: social tiles fill with growing LED dots instead of the swipe-up */
 @property --dr{syntax:"<length>";inherits:false;initial-value:0px}
@@ -2896,7 +2895,7 @@ html.dot .socials a:hover .arw{color:#000}
 <script>
 /* Dot: the portrait as an LED dot-matrix. Each dot's size follows the photo's brightness;
    unlit dots stay faintly visible like a real panel. Dots light up in a sweep on load,
-   a slow scan line passes now and then, and the cursor acts as a magnifier. */
+   and a slow scan line passes now and then. */
 (function(){
   var root=document.documentElement, cv=document.getElementById('dotmx'); if(!cv) return;
   var fig=cv.parentElement, ctx=cv.getContext('2d');
@@ -2954,8 +2953,7 @@ html.dot .socials a:hover .arw{color:#000}
   var lastF=0;
   function loop(now){ if(now-lastF>=32){ lastF=now; draw(now); } if(!reduce&&visible&&root.classList.contains('dot')) raf=requestAnimationFrame(loop); else raf=0; }
   function start(){ if(!root.classList.contains('dot')||!cells) return; cancelAnimationFrame(raf); t0=performance.now(); if(reduce){ draw(t0); return; } raf=requestAnimationFrame(loop); }
-  fig.addEventListener('pointermove',function(e){ var b=cv.getBoundingClientRect(); mx=e.clientX-b.left; my=e.clientY-b.top; hovT=1; if(!raf&&!reduce&&root.classList.contains('dot')) raf=requestAnimationFrame(loop); if(reduce) draw(performance.now()); });
-  fig.addEventListener('pointerleave',function(){ hovT=0; });
+  // no hover effect on the dot portrait
   window.addEventListener('resize',function(){ if(loaded===2&&root.classList.contains('dot')&&build()) draw(performance.now()); });
   new MutationObserver(function(){ if(root.classList.contains('dot')){ if(loaded===2){ build(); start(); } } else { cancelAnimationFrame(raf); raf=0; } }).observe(root,{attributes:true,attributeFilter:['class']});
   if('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible=es[0].isIntersecting; if(visible&&!raf&&!reduce&&root.classList.contains('dot')) raf=requestAnimationFrame(loop); }).observe(cv);

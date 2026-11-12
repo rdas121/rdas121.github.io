@@ -1386,6 +1386,29 @@ html.dot .resume-btn:hover small{color:#fff}
 .logo-globe svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
 html.neo .logo-globe{background:var(--yellow)!important;color:#000}
 html.dot .logo-globe{color:#F2F2F2}
+
+/* resume button v2: right-aligned, compact outline pill, shimmers twice when it comes into view */
+#experience .sec-head.stack{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px;row-gap:0;align-items:end}
+#experience .sec-head.stack>h2{grid-column:1 / -1}
+#experience .sec-head.stack>p{grid-column:1;grid-row:2}
+#experience .sec-head.stack>.resume-btn{grid-column:2;grid-row:2;align-self:end;margin:0 0 2px}
+@media (max-width:640px){#experience .sec-head.stack{display:block}#experience .sec-head.stack>.resume-btn{margin-top:16px}}
+.resume-btn{position:relative;overflow:hidden;isolation:isolate;padding:7px 14px 7px 12px;gap:8px;font-size:13px;border-radius:99px;background:transparent;color:var(--accent);border:1.5px solid color-mix(in srgb,var(--accent) 70%,transparent);box-shadow:none}
+.resume-btn svg{width:16px;height:16px}
+.resume-btn small{opacity:.7}
+.resume-btn:hover{background:color-mix(in srgb,var(--accent) 8%,transparent);border-color:var(--accent);box-shadow:none;transform:none}
+.resume-btn::after{content:"";position:absolute;inset:-2px auto -2px -60%;width:45%;z-index:-1;background:linear-gradient(100deg,transparent,color-mix(in srgb,var(--accent) 26%,transparent),transparent);transform:skewX(-18deg);opacity:0;pointer-events:none}
+.resume-btn.shine::after{animation:shimmer 1.15s cubic-bezier(.4,0,.2,1) .2s 2}
+@keyframes shimmer{0%{left:-60%;opacity:1}100%{left:130%;opacity:1}}
+html.neo .resume-btn{background:transparent;color:#000;border:var(--b);box-shadow:none;padding:6px 14px 6px 12px}
+html.neo .resume-btn:hover{background:var(--yellow);transform:translate(-2px,-2px);box-shadow:3px 3px 0 #000}
+html.neo .resume-btn::after{background:linear-gradient(100deg,transparent,rgba(255,144,232,.7),transparent)}
+html.dot .resume-btn{background:transparent;color:#F2F2F2;border:1px solid #F2F2F2}
+html.dot .resume-btn small{color:var(--accent)}
+html.dot .resume-btn:hover{background:#F2F2F2;color:#000}
+html.dot .resume-btn:hover small{color:var(--accent)}
+html.dot .resume-btn::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent)}
+@media (prefers-reduced-motion:reduce){.resume-btn.shine::after{animation:none}}
 </style>
 </head>
 <body>
@@ -1448,7 +1471,7 @@ html.dot .logo-globe{color:#F2F2F2}
       <div class="sec-head stack reveal">
         <h2>Thirteen years, <em>seven teams</em></h2>
         <p>From running my own design studio to leading design for US small businesses and India’s next billion. Click a company below to view its case studies.</p>
-        <a class="resume-btn" href="Rahul_Das_Resume.pdf" download="Rahul_Das_Resume.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14"/></svg>Download resume <small>PDF</small></a>
+        <a class="resume-btn" href="Rahul_Das_Resume.pdf" download="Rahul_Das_Resume.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14"/></svg>Download resume</a>
       </div>
       <div class="xp" role="table" aria-label="Work experience">
         <div class="xr xh" role="row"><span></span><span role="columnheader">Company</span><span role="columnheader">Role</span><span role="columnheader">Years</span><span role="columnheader" class="c-focus">Focus</span><span role="columnheader" class="c-cs">Work</span><span></span></div>
@@ -3032,6 +3055,8 @@ html.dot .logo-globe{color:#F2F2F2}
    so hand the PDF to the viewer's save prompt there; elsewhere the link works as is */
 (function(){
   var btn=document.querySelector('.resume-btn'); if(!btn) return;
+  // shimmer twice the first time the button scrolls into view
+  if('IntersectionObserver' in window){ var io=new IntersectionObserver(function(es){ if(es[0].isIntersecting){ btn.classList.add('shine'); io.disconnect(); } },{threshold:.8}); io.observe(btn); } else btn.classList.add('shine');
   btn.addEventListener('click',function(e){
     if(!(window.claude&&typeof window.claude.use==='function')) return;
     e.preventDefault();

@@ -1129,6 +1129,9 @@ html.neo .wwm-body li>.ic{color:#000;background:var(--yellow);border:2px solid #
 html.neo .wwm-body section:nth-child(2) li>.ic{background:var(--pink)}
 html.pixel .wwm-body li>.ic{color:#000;background:var(--coin);border-radius:0;box-shadow:3px 3px 0 #000}
 html.pixel .wwm-body section:nth-child(2) li>.ic{background:var(--accent)}
+
+/* hidden case studies */
+.is-hidden,[hidden].bigcard,[hidden].company{display:none!important}
 </style>
 </head>
 <body>
@@ -1307,7 +1310,7 @@ html.pixel .wwm-body section:nth-child(2) li>.ic{background:var(--accent)}
         <div class="co-tags"><span>Supply chain</span><span>Design system</span><span>Leadership</span></div>
       </div>
     </header>
-    <p class="co-count">3 case studies</p>
+    <p class="co-count">2 case studies</p>
     <div class="bigcards">
       <a class="bigcard reveal" href="#cs-myntra-returns">
         <div class="bc-media"><img src="img/returns.jpg" alt="A long warehouse aisle with blue racks stacked with cartons" loading="lazy"></div>
@@ -1329,7 +1332,7 @@ html.pixel .wwm-body section:nth-child(2) li>.ic{background:var(--accent)}
           <span class="cta">Read case study · 10 min <span class="arw">↗</span></span>
         </div>
       </a>
-      <a class="bigcard reveal" href="#cs-myntra-ds">
+      <a class="bigcard reveal is-hidden" href="#cs-myntra-ds" hidden aria-hidden="true" tabindex="-1">
         <div class="bc-media"><img src="img/designsystem.jpg" alt="A laptop screen showing a design system file with layers, components and themes" loading="lazy"></div>
         <div class="bc-body">
           <span class="num">03 · 2019</span>
@@ -1906,10 +1909,10 @@ html.pixel .wwm-body section:nth-child(2) li>.ic{background:var(--accent)}
       <p>This project gave me the tools to communicate with stakeholders whose backgrounds are very different from mine. The interview process we followed shaped our ideas far better than before, and supporting research inside complex organizations with many audiences has become an ongoing passion of mine.</p>
       <p class="cs-quote">Define the basic needs before jumping to solutions. Solutions come with many choices, but the biggest mistake is solving the wrong problem, and by then it’s too late.</p>
     </article>
-    <a class="next" href="#cs-myntra-ds"><span>Next case study</span><b>Design system <span aria-hidden="true">→</span></b></a>
+    <a class="next" href="#cs-meesho-grocery"><span>Next case study</span><b>Meesho grocery <span aria-hidden="true">→</span></b></a>
   </div>
 </section>
-<section class="company cs" id="cs-myntra-ds" aria-label="Myntra internal design system case study">
+<section class="company cs is-hidden" hidden id="cs-myntra-ds" aria-label="Myntra internal design system case study">
   <div class="wrap">
     <a class="back" href="#myntra"><span aria-hidden="true">←</span> Myntra</a>
     <header class="cs-hero">
@@ -2383,7 +2386,9 @@ html.pixel .wwm-body section:nth-child(2) li>.ic{background:var(--accent)}
   tick(); setInterval(tick, 20000);
 
   var ids=['legalzoom','meesho','myntra','treebo','cs-legalzoom','cs-myntra-returns','cs-myntra-warehouse','cs-myntra-ds','cs-meesho-grocery','cs-treebo-onboarding','cs-treebo-crs'];
-  function route(){ if(ids.indexOf(location.hash.slice(1))>-1){ window.scrollTo(0,0); } }
+  function route(){
+    if(location.hash==='#cs-myntra-ds'){ location.replace('#myntra'); return; }   // hidden case study
+    if(ids.indexOf(location.hash.slice(1))>-1){ window.scrollTo(0,0); } }
   window.addEventListener('hashchange', route); route();
 
 

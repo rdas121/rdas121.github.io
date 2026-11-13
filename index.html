@@ -1409,6 +1409,13 @@ html.dot .resume-btn:hover{background:#F2F2F2;color:#000}
 html.dot .resume-btn:hover small{color:var(--accent)}
 html.dot .resume-btn::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent)}
 @media (prefers-reduced-motion:reduce){.resume-btn.shine::after{animation:none}}
+
+/* style switcher: floats at the bottom centre, outside the header */
+.mode.mode-float{position:fixed;left:50%;right:auto;bottom:18px;transform:translateX(-50%);z-index:60;background:var(--panel);box-shadow:0 0 0 1px var(--hair),0 10px 30px rgba(0,0,0,.14)}
+html.neo .mode.mode-float{box-shadow:3px 3px 0 #000}
+html.dot .mode.mode-float{background:#161616;box-shadow:0 0 0 1px #333,0 10px 30px rgba(0,0,0,.6)}
+@media (max-width:760px){.mode.mode-float{left:50%;right:auto;bottom:14px}}
+@media print{.mode.mode-float{display:none}}
 </style>
 </head>
 <body>
@@ -1424,16 +1431,17 @@ html.dot .resume-btn::after{background:linear-gradient(100deg,transparent,rgba(2
       <a href="#contact">Contact</a>
     </nav>
     <div class="top-r">
-      <div class="mode" role="group" aria-label="Design style">
-        <button type="button" data-mode="modern" aria-pressed="true">Modern</button>
-        <button type="button" data-mode="pixel" aria-pressed="false" hidden>8-bit</button>
-        <button type="button" data-mode="neo" aria-pressed="false">Neo</button>
-        <button type="button" data-mode="dot" aria-pressed="false">Dot</button>
-      </div>
       <span class="clock"><i aria-hidden="true"></i><span id="clock">Bengaluru</span></span>
     </div>
   </div>
 </header>
+<div class="mode mode-float" role="group" aria-label="Design style">
+  <button type="button" data-mode="modern" aria-pressed="true">Modern</button>
+  <button type="button" data-mode="pixel" aria-pressed="false" hidden>8-bit</button>
+  <button type="button" data-mode="neo" aria-pressed="false">Neo</button>
+  <button type="button" data-mode="dot" aria-pressed="false">Dot</button>
+</div>
+
 
 <main id="top">
 <div id="home">

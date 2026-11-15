@@ -85,6 +85,7 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius
 .portrait .real{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;pointer-events:none;opacity:0;transform:translate3d(var(--tx,0px),var(--ty,0px),0) scale(var(--bs,1.02));
   -webkit-mask-image:radial-gradient(circle var(--hr,0px) at var(--hx,50%) var(--hy,50%),#000 55%,transparent 100%);mask-image:radial-gradient(circle var(--hr,0px) at var(--hx,50%) var(--hy,50%),#000 55%,transparent 100%);transition:opacity .35s var(--ease)}
 .portrait.revealing .real{opacity:1}
+.portrait .real{transition:opacity .9s var(--ease)}
 @media (prefers-reduced-motion:reduce){.portrait.revealing .real{-webkit-mask-image:none;mask-image:none}}
 .portrait .pgrain{position:absolute;inset:-50%;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -2730,7 +2731,7 @@ html.pixel .mode button::before{border-radius:0!important}
       vx+=(tx-vx)*0.06; vy+=(ty-vy)*0.06;
       var br=reduce?0:Math.sin(t*0.9), cx=W/2, cy=H/2, gx=W/(cols*cw), gy=H/(rows*fs*1.02);
       if(duo && !reduce){ duo.style.setProperty('--tx',(vx*2.5).toFixed(2)+'px'); duo.style.setProperty('--ty',(vy*2).toFixed(2)+'px'); duo.style.setProperty('--bs',(1.025+br*0.01).toFixed(4)); }
-      hr+=((hover?Math.min(W,H)*0.3:0)-hr)*0.15;
+      var hrT=hover?Math.hypot(W,H)*1.15:0; hr+=(hrT-hr)*(hover?0.014:0.07);  // slow grow from the cursor to the full photo, quicker fade back
       if(real){ real.style.setProperty('--hr',hr.toFixed(1)+'px'); real.style.setProperty('--hx',mx+'px'); real.style.setProperty('--hy',my+'px'); real.style.setProperty('--tx',(vx*2.5).toFixed(2)+'px'); real.style.setProperty('--ty',(vy*2).toFixed(2)+'px'); real.style.setProperty('--bs',(1.025+br*0.01).toFixed(4)); }
       var buckets=[[],[],[],[]];
       for(var k=0;k<cells.length;k++){
